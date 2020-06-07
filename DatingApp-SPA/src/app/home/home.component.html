@@ -1,0 +1,25 @@
+<!-- Home page component html -->
+  <!-- Bootstrap using containers and margins -->
+<div class="container mt-5">
+  <!-- Display this data if the registerMode is false -->
+  <div *ngIf="!registerMode" style="text-align: center">
+    <h1>Find your match</h1>
+    <p class="lead">Come on in to view your matches... All you need to do is sign up!</p>
+    <div class="text-center">
+      <!-- Upon click it will call the register toggle method which will change the display (registerMode) -->
+      <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
+      <button class="btn btn-info btn-lg">Learn more</button>
+    </div>
+  </div>
+
+   <!-- Display this data if the registerMode is true -->
+  <div *ngIf="registerMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <!-- Display a child component here  -->
+          <!-- This component will have a data output that will be triggered if the user cancels the registration -->
+        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+      </div>
+    </div>
+  </div>
+</div>

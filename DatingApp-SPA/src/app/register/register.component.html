@@ -1,0 +1,23 @@
+<!-- This is a child component that will be displayed when the user clicks to register -->
+<!-- When this form is submitted it will use the register method found in this component-->
+<form #registerForm="ngForm" (ngSubmit)="register()"> 
+  <h2 class="text-center text-primary">Sign Up</h2>
+  <hr>
+
+  <!-- Form for the user to input a username -->
+  <div class="form-group">
+    <input type="text" class="form-control" name="username" required placeholder="Username" [(ngModel)]="model.username">
+  </div>
+
+  <!-- Form for the user to input a password -->
+  <div class="form-group">
+    <input type="password" class="form-control" name="password" required placeholder="Password" [(ngModel)]="model.password">
+  </div>
+
+  <!-- Button options for the user to register or cancel -->
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit">Register</button>
+    <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+  </div>
+  
+</form>
