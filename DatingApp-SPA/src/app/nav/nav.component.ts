@@ -25,7 +25,7 @@ export class NavComponent implements OnInit {
       console.log('Logged in successfully');
     }, error => {
       // If it failed then send a console message displaying that it failed
-      console.log('Failed to login');
+      console.log(error);
     });
   }
 
