@@ -1,3 +1,4 @@
+/* Set the dropdown-toggle and dropdown-item classes to show a pointer for the cursor when on these items */
 .dropdown-toggle, .dropdown-item {
     cursor: pointer;
 }
