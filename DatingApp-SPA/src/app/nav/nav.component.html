@@ -1,48 +1,69 @@
 <!-- Create the navbar -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Dating App</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <div class="container-fluid ml-4">
+    <a class="navbar-brand" href="#">Dating App</a>
 
     <!-- Create each anchor in the navbar -->
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Matches</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Messages</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" (click)="logout()">Logout</a>
-      </li>
+    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+      <li class="nav-item active"><a class="nav-link" href="#">Matches</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Lists</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
     </ul>
-
     <!-- Conditional data to be shown if the user is logged in -->
-    <div *ngIf="loggedIn()" class="dropdown">
-      <a class="dropdown-toggle text-light">
-        Welcome, User!
-      </a> 
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Edit Profile</a>
+    <div *ngIf="loggedIn()" class="dropdown" dropdown>
+      <a class="dropdown-toggle text-light mr-4" dropdownToggle>
+        Welcome, {{ authService.decodedToken?.unique_name | titlecase }}
+      </a>
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" href="#"
+          ><i class="fa fa-user"></i>Edit Profile</a
+        >
         <div class="dropdown-divier"></div>
-        <a class="dropdown-item" href="#"><i class="fa fa-user" on-click="logout()"></i>Logout</a>
+        <a class="dropdown-item" (click)="logout()"
+          ><i class="fa fa-user"></i>Logout</a
+        >
       </div>
     </div>
 
     <!-- The login form -->
-      <!-- The main form tag will contain an identifier that it is an ngForm -->
-      <!-- The main form tag will also contain an ngSubmit that performs the login method when submit is clicked -->
-      <!-- This data is conditional upon the user not being logged in -->
-    <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
-        <!-- Create the inputs for the username and password -->
-        <!-- The nav component contains a model object named 'model' that this will populate data into by using ngModel-->
-          <!-- Each input must contain a name that will be referenced in the ngModel so it knows what data it is adding -->
-      <input class="form-control mr-sm-2" type="text" name="username" placeholder="Username" required [(ngModel)]="model.username">
-      <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password">
+    <!-- The main form tag will contain an identifier that it is an ngForm -->
+    <!-- The main form tag will also contain an ngSubmit that performs the login method when submit is clicked -->
+    <!-- This data is conditional upon the user not being logged in -->
+    <form
+      *ngIf="!loggedIn()"
+      #loginForm="ngForm"
+      class="form-inline my-2 my-lg-0"
+      (ngSubmit)="login()"
+    >
+      <!-- Create the inputs for the username and password -->
+      <!-- The nav component contains a model object named 'model' that this will populate data into by using ngModel-->
+      <!-- Each input must contain a name that will be referenced in the ngModel so it knows what data it is adding -->
+      <input
+        class="form-control mr-sm-2"
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+        [(ngModel)]="model.username"
+      />
+      <input
+        class="form-control mr-sm-2"
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        [(ngModel)]="model.password"
+      />
+
       <!-- Because 'required' was added to the inputs it will tell the loginForm if the login fields are empty or not -->
       <!-- We can use this data to control the login button and disable it if the entire form is not valid -->
-      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+      <button
+        [disabled]="!loginForm.valid"
+        class="btn btn-success my-2 my-sm-0"
+        type="submit"
+      >
+        Login
+      </button>
     </form>
-
+  </div>
 </nav>

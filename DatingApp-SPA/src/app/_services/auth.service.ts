@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,10 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   // set the url for the service
   baseUrl = 'http://localhost:5000/api/auth/';
+
+  // declare jwtHelper that uses the JwtHelperService
+  jwtHelper = new JwtHelperService();
+  decodedToken: any;
 
   // Inject the HttpClient
   constructor(private http: HttpClient) { }
@@ -24,7 +29,10 @@ export class AuthService {
           // If the response is true
           const user = response;
           if (user) {
+            // Add the token to local storage
             localStorage.setItem('token', user.token);
+            this.decodedToken = this.jwtHelper.decodeToken(user.token);
+            console.log(this.decodedToken);
           }
         })
       );
@@ -33,5 +41,11 @@ export class AuthService {
   // Register method to post to register with credential data captured in the register conponent model
   register(model: any) {
     return this.http.post(this.baseUrl + 'register', model);
+  }
+
+  // Method making use of the JwtHelperService to determine if a token is expired - thus checking if the user is still logged in
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    return !this.jwtHelper.isTokenExpired(token);
   }
 }
