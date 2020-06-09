@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data;
@@ -43,6 +44,25 @@ namespace DatingApp.API.Controllers
             // We do this by using mapper and we will set the return data to a DTO
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
             return Ok(userToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
+        {
+            // Check if the user that passed the token is the actual user by the Id
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var userFromRepo = await _repo.GetUser(id);
+
+            // Map the userUpdateDto data into the user
+            _mapper.Map(userForUpdateDto, userFromRepo);
+
+            // Attempt to save changes
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new System.Exception($"Updating user {id} failed on save.");
         }
     }
 }
