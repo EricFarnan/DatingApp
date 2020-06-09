@@ -15,10 +15,12 @@ namespace DatingApp.API.Data
          // Task for saving all
          Task<bool> SaveAll();
 
+         // Task that takes in IEnumerable user to get all users
+         Task<IEnumerable<User>> GetUsers();    
+
          // Task that takes in User and gets the user
          Task<User> GetUser(int id);
-
-         // Task that takes in IEnumerable user to get all users
-         Task<IEnumerable<User>> GetUsers();        
+    
+         Task<Photo> GetPhoto(int id);
     }
 }
