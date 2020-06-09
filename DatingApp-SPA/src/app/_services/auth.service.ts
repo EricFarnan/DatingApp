@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 // Create the auth service
 export class AuthService {
   // set the url for the service
-  baseUrl = 'http://localhost:5000/api/auth/';
+  baseUrl = environment.apiUrl + 'auth/';
 
   // declare jwtHelper that uses the JwtHelperService
   jwtHelper = new JwtHelperService();

@@ -1,0 +1,23 @@
+<div class="card mb-4">
+<!-- Image wrapper -->
+  <div class="card-img-wrapper">
+    <!-- In the card display the user photo from the user photo url -->
+    <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.knownAs}}"/>
+    <!-- Create a list of icons that appear when hovered over the user, check styling css -->
+    <ul class="list-inline member-icons animate text-center">
+      <!-- The user icon button will route the user to members/id based on this component's user that was passed in -->
+      <li class="list-inline-item"><button class="btn btn-primary"
+        [routerLink]="['/members/', user.id]"><i class="fa fa-user"></i></button></li>
+      <li class="list-inline-item"><button class="btn btn-primary"><i class="fa fa-heart"></i></button></li>
+      <li class="list-inline-item"><button class="btn btn-primary"><i class="fa fa-envelope"></i></button></li>
+    </ul>
+  </div>
+<!-- Card body details -->
+  <div class="card-body p-1">
+    <h6 class="card-title text-center mb-1"><i class="fa fa-user"></i>
+      {{user.knownAs}}, {{user.age}}
+    </h6>
+    <p class="card-text text-muted text-center">{{user.city}}</p>
+  </div>
+  
+</div>

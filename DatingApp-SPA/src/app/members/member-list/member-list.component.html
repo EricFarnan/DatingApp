@@ -1,0 +1,9 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Loop through all of the users -->
+    <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
+      <!-- Display the member-card component with the user passed in -->
+      <app-member-card [user]="user"></app-member-card>
+    </div>
+  </div>
+</div>

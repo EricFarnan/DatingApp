@@ -35,21 +35,26 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add the DB service to connect
             services.AddDbContext<DataContext>(connection => connection.UseSqlite(Configuration.GetConnectionString("Default")));
             
+            // Use NewtonsoftJson instead of Text.Json
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
+                // Ignore reference loop handle errors
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
             services.AddCors();
 
+            // AutoMapper service, needs reference of what assembly it is using, used an existing class and referenced it's assembly
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
 
+            // Interfaces
             services.AddScoped<IAuthRepository, AuthRepository>();
-
             services.AddScoped<IDatingRepository, DatingRepository>();
 
+            // Authentication service for JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
