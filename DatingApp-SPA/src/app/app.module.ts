@@ -1,3 +1,4 @@
+// Node Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,6 +8,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery-9';
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -67,6 +70,9 @@ export function tokenGetter() {
 
       // Module for image gallery
       NgxGalleryModule,
+
+      // Module for image uploading
+      FileUploadModule,
 
       // JWT auto attach headers to request
       JwtModule.forRoot({
