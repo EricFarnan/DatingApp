@@ -16,16 +16,18 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
 
-  constructor(private authService: AuthService ) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.initalizeUploader();
   }
 
+  // FileUploader method
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
+  // Initialize the photo uploader with user's photos
   initalizeUploader() {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/' + this.authService.decodedToken.nameid + '/photos',
@@ -37,11 +39,16 @@ export class PhotoEditorComponent implements OnInit {
       maxFileSize: 10 * 1024 * 1024,
     });
 
+    // Perform options after uploading file
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
+    // Perform options after upload succeeds
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response){
+        // Extract data from the photo upload response
         const res: Photo = JSON.parse(response);
+
+        // Set a photo object with the new photo
         const photo = {
           id: res.id,
           url: res.url,
@@ -49,6 +56,8 @@ export class PhotoEditorComponent implements OnInit {
           description: res.description,
           isMain: res.isMain
         };
+
+        // Push the uploaded photo object to photos
         this.photos.push(photo);
       }
     };
