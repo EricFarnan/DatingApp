@@ -47,6 +47,9 @@ namespace DatingApp.API
 
             services.AddCors();
 
+            // Set cloudinary data to the config data
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
             // AutoMapper service, needs reference of what assembly it is using, used an existing class and referenced it's assembly
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
 
