@@ -1,9 +1,11 @@
 // Node Modules
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -17,7 +19,6 @@ import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
 import { UserService } from './_services/user.service';
@@ -55,17 +56,21 @@ export function tokenGetter() {
    // App Modules
    imports: [
       BrowserModule,
+      BrowserAnimationsModule,
       HttpClientModule,
       FormsModule,
 
       // For form validations
       ReactiveFormsModule,
 
+      // for ngx bootstrap DatePicker
       BrowserAnimationsModule,
 
       // For dropdown modals
       BsDropdownModule.forRoot(),
 
+      // Date Picker modue
+      BsDatepickerModule.forRoot(),
       // Tabs
       TabsModule.forRoot(),
 

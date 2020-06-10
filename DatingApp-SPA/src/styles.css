@@ -10,6 +10,9 @@
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 
+/* ngx bootstrap DatePicker styling */
+@import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
+
 /* Member info tab styling */
 .tab-panel {
     border: 1px solid #ddd;

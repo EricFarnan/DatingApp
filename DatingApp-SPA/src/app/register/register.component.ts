@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/public_api';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,12 @@ export class RegisterComponent implements OnInit {
   model: any = {};
   registerForm: FormGroup;
 
+  // BsDatepickerConfig class has a lot of required fields
+  // and we only want to change one field in there so we will
+  // set it as a partial class
+  bsConfig: Partial<BsDatepickerConfig>;
+  maxDate: Date;
+
   // Inject the AuthService
   constructor(
     private authService: AuthService,
@@ -24,13 +31,33 @@ export class RegisterComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.datePickerConfig();
     this.createRegisterForm();
+  }
+
+  // Datepicker with configurations
+  datePickerConfig() {
+    // Theme
+    this.bsConfig = {
+      containerClass: 'theme-red',
+      showWeekNumbers: false
+    };
+
+    // Max date allowed for datepicker
+    this.maxDate = new Date();
+    this.maxDate.setDate(this.maxDate.getDate());
   }
 
   // Register form using FormBuilder service
   createRegisterForm() {
     this.registerForm = this.fb.group({
+      // Form inputs as properties: property options (form state of '' to display no text in the field, validations for the field)
+      gender: ['male'],
       username: ['', Validators.required],
+      knownAs: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       confirmPassword: ['', Validators.required]
     }, {validator: this.passwordMatchValidator});
@@ -38,6 +65,7 @@ export class RegisterComponent implements OnInit {
 
   // Register Form custom validator
   passwordMatchValidator(g: FormGroup) {
+    // return true of the password and confirmPassword values are equal, if not then return a mismatch
     return g.get('password').value === g.get('confirmPassword').value ? null : {mismatch: true};
   }
 
