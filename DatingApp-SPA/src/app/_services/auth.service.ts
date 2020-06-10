@@ -31,9 +31,9 @@ export class AuthService {
   }
 
   // Create login method that takes in a model of any type
-  login(model: any) {
+  login(user: User) {
     // The model will return the status of sending a post to the url that includes the intake model (user & pass)
-    return this.http.post(this.baseUrl + 'login', model)
+    return this.http.post(this.baseUrl + 'login', user)
     // Store the token from the response into the browser's local storage if the response is true (valid user & pass)
       .pipe(
         map((response: any) => {

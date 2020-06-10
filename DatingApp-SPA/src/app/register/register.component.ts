@@ -3,6 +3,8 @@ import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/public_api';
+import { User } from '../_models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,7 @@ export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
 
   // Initialite the component model
-  model: any = {};
+  user: User;
   registerForm: FormGroup;
 
   // BsDatepickerConfig class has a lot of required fields
@@ -27,7 +29,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private alertify: AlertifyService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -70,15 +73,26 @@ export class RegisterComponent implements OnInit {
   }
 
   // Logic to register the user
-  // Will use the AuthService register method and pass in the model data
   register() {
-    // this.authService.register(this.model).subscribe(() => {
-    //   this.alertify.success('Registration successful');
-    // }, error => {
-    //   this.alertify.error(error);
-    // });
+    if (this.registerForm.valid) {
+      // Assign user object data to the registration form object data
+      this.user = Object.assign({}, this.registerForm.value);
 
-    console.log(this.registerForm.value);
+      // Send the register command from the auth service
+      this.authService.register(this.user).subscribe(() => {
+        // If its successful 
+        this.alertify.success('Registration successful!');
+      }, error => {
+        // If it errors
+        this.alertify.error(error);
+      }, () => {
+        // If it is successful, do this after everything
+        // Login as the user and navigate to the members page
+        this.authService.login(this.user).subscribe(() => {
+          this.router.navigate(['/members']);
+        });
+      });
+    }
   }
 
   // Logic to cancel registration and hide the registration inputs
