@@ -1,17 +1,56 @@
 <!-- This is a child component that will be displayed when the user clicks to register -->
-<!-- When this form is submitted it will use the register method found in this component-->
-<form #registerForm="ngForm" (ngSubmit)="register()"> 
+<!-- When this form is submitted it will use the register method found in this component -->
+<form [formGroup]="registerForm" (ngSubmit)="register()"> 
   <h2 class="text-center text-primary">Sign Up</h2>
   <hr>
 
   <!-- Form for the user to input a username -->
   <div class="form-group">
-    <input type="text" class="form-control" name="username" required placeholder="Username" [(ngModel)]="model.username">
+    <input type="text" 
+    [ngClass]="{'is-invalid': registerForm.get('username').errors && registerForm.get('username').touched}"
+    class="form-control" formControlName="username" placeholder="Username">
+    <div class="invalid-feedback">Please enter a username</div>
   </div>
 
   <!-- Form for the user to input a password -->
   <div class="form-group">
-    <input type="password" class="form-control" name="password" required placeholder="Password" [(ngModel)]="model.password">
+    <!-- ngClass for using reactive form validations -->
+    <input type="password"    
+    [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched}"
+    class="form-control" formControlName="password" placeholder="Password">
+    <!-- Empty password Validation -->
+    <div class="invalid-feedback" 
+      *ngIf="registerForm.get('password').hasError('required') && 
+      registerForm.get('password').touched">Password is required
+    </div>
+    <!-- Min length password Validation -->
+    <div class="invalid-feedback" 
+      *ngIf="registerForm.get('password').hasError('minlength') && 
+      registerForm.get('password').touched">Password must be at least 4 characters
+    </div>
+    <!-- Max length password Validation -->
+    <div class="invalid-feedback" 
+      *ngIf="registerForm.get('password').hasError('maxlength') && 
+      registerForm.get('password').touched">Password cannot exceed 8 characters
+    </div>
+  </div>
+
+  <div class="form-group">
+    <!-- ngClass for using reactive form validations -->
+    <input type="password" 
+    [ngClass]="{'is-invalid': registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').touched
+                || registerForm.get('confirmPassword').touched && registerForm.hasError('mismatch')}"
+    class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+    <!-- Password confirm empty validation -->
+    <div class="invalid-feedback" 
+      *ngIf="registerForm.get('confirmPassword').hasError('required') && 
+      registerForm.get('confirmPassword').touched">Password confirmation is required
+    </div>
+    <!-- Password confirmation mismatch validation -->
+    <div class="invalid-feedback" 
+      *ngIf="registerForm.hasError('mismatch') && 
+      registerForm.get('confirmPassword').touched">Passwords must match
+    </div>
   </div>
 
   <!-- Button options for the user to register or cancel -->
@@ -21,3 +60,6 @@
   </div>
   
 </form>
+
+<p>Form value: {{registerForm.value | json}}</p>
+<p>Form status: {{registerForm.status | json}}</p>

@@ -2,7 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
@@ -50,13 +50,17 @@ export function tokenGetter() {
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
-      PhotoEditorComponent
+      PhotoEditorComponent,
    ],
    // App Modules
    imports: [
       BrowserModule,
       HttpClientModule,
       FormsModule,
+
+      // For form validations
+      ReactiveFormsModule,
+
       BrowserAnimationsModule,
 
       // For dropdown modals
