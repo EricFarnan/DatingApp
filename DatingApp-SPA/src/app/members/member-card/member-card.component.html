@@ -2,7 +2,7 @@
 <!-- Image wrapper -->
   <div class="card-img-wrapper">
     <!-- In the card display the user photo from the user photo url -->
-    <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.knownAs}}"/>
+    <img class="card-img-top" src="{{user.photoUrl || '../../../../../assets/user.png'}}" alt="{{user.knownAs}}"/>
     <!-- Create a list of icons that appear when hovered over the user, check styling css -->
     <ul class="list-inline member-icons animate text-center">
       <!-- The user icon button will route the user to members/id based on this component's user that was passed in -->

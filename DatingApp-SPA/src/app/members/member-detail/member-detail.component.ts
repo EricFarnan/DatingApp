@@ -73,6 +73,11 @@ export class MemberDetailComponent implements OnInit {
   getImagesSorted() {
     const imgUrls = [];
 
+    // If there are no user photos then return empty
+    if (this.user.photos.length === 0) {
+      return imgUrls;
+    }
+
     // Order the photos chronologically descending
     let sortedPhotosObj = this.user.photos.sort((a, b) => {
       return (new Date(b.dateAdded) as any) - (new Date(a.dateAdded) as any);
