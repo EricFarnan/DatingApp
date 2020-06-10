@@ -153,5 +153,58 @@ namespace DatingApp.API.Controllers
             // If save changes failed
             return BadRequest("Could not set photo to main.");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int userId, int id)
+        {
+            // Check if the user that passed the token is the actual user by the Id
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            // Get the user data from the passed in userId
+            var user = await _repo.GetUser(userId);
+
+            // If the given photoId does not match any of the user's photoId then it does not exist
+            if (!user.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+
+            // Get the photo data from the passed in photoId
+            var photoFromRepo = await _repo.GetPhoto(id);
+
+            // If the photo is already the main photo prevent deletion
+            if (photoFromRepo.IsMain)
+                return BadRequest("You cannot delete your main photo.");
+
+            // If there is a publicId for the photo it must also be deleted from the cloudinary storage
+            if (photoFromRepo.PublicId != null)
+            {
+                // Delete the image from cloudinary
+                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+                var result = _cloudinary.Destroy(deleteParams);
+
+                // Get the result of the cloudinary destroy to confirm the image was deleted
+                if (result.Result == "ok")
+                    // Delete the photo refrence from the db
+                    _repo.Delete(photoFromRepo);
+
+                // Attempt to save db changes
+                if (await _repo.SaveAll())
+                    return Ok();
+            }
+
+            // If there is no publicId then just delete (no cloudinary)
+            if (photoFromRepo.PublicId == null) 
+            {
+                // Delete the photo refrence from the db
+                _repo.Delete(photoFromRepo);
+
+                 // Attempt to save db changes
+                if (await _repo.SaveAll())
+                    return Ok();
+            }
+
+            // If db save fails
+            return BadRequest("Failed to delete the photo.");
+        }
     }
 }
