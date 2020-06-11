@@ -1,5 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace DatingApp.API.Helpers
 {
@@ -8,9 +10,29 @@ namespace DatingApp.API.Helpers
         // Extension method for HttpResponse to add additional application errors to a response
         public static void AddApplicationError(this HttpResponse response, string message)
         {
+            // This will add error messages to the header of our responses
             response.Headers.Add("Application-Error", message);
+
+            // Must allow application-error in our response headers to avoid CORS error
             response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             response.Headers.Add("Access-Control-Allow-Origin", "*");
+        }
+
+        // Extension method for HttpResponse to add pagination to responses
+        public static void AddPagination(this HttpResponse response, int currentPage, int itemsPerPage, int totalItems, int totalPages)
+        {
+            // Initialize a new instance of pagination using the given data
+            var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalPages, totalPages);
+
+            // Json serialization settings to format serialized object into camelCase
+            var camelCaseFormatter = new JsonSerializerSettings();
+            camelCaseFormatter.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            // Add the pagination to the response headers by serializing the pagination (sets property names to camel case)
+            response.Headers.Add("Pagination", JsonConvert.SerializeObject(paginationHeader, camelCaseFormatter));
+
+            // Allow pagination in our response headers to avoid CORS error
+            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
 
         // Extension method for the DateTime class to calculate an age

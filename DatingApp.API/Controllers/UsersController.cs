@@ -30,13 +30,18 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _repo.GetUsers();
+            var users = await _repo.GetUsers(userParams);
 
             // We want to change the data returned to filter out properties from User
             // We do this by using mapper and we will set the return data to a DTO
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            // Http extension created to add pagination to the response header
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
+            // Return users paginated
             return Ok(usersToReturn);
         }
 
