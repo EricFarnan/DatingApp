@@ -57,6 +57,9 @@ namespace DatingApp.API
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
 
+            // Service to updated the user's LastActive property
+            services.AddScoped<LogUserActivity>();
+
             // Authentication service for JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

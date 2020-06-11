@@ -4,11 +4,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Dtos;
+using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
 {
+    // Service filter for logging activity
+    // Anytime a method is called here the service filter will be activated
+    [ServiceFilter(typeof(LogUserActivity))]
+
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
