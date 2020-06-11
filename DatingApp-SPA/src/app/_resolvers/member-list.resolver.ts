@@ -10,6 +10,9 @@ import { of, Observable } from 'rxjs';
 // Resolver used to retrieve the data of Users
 // Will return an array of the users
 export class MemberListResolver implements Resolve<User[]> {
+    pageNumber = 1;
+    pageSize = 5;
+
     constructor(
         private userService: UserService,
         private router: Router,
@@ -19,13 +22,13 @@ export class MemberListResolver implements Resolve<User[]> {
     // Resolve the route, return an obeserable User interface array
     resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
         // Populate the return data with the getUsers API call
-        return this.userService.getUsers().pipe(
+        return this.userService.getUsers(this.pageNumber, this.pageSize).pipe(
             // Catch errors and perform actions
             catchError(error => {
                 this.alertify.error('Problem retrieving data.');
                 this.router.navigate(['/home']);
                 return of(null);
             })
-        )
+        );
     }
 }
