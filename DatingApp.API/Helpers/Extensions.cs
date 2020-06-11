@@ -22,7 +22,7 @@ namespace DatingApp.API.Helpers
         public static void AddPagination(this HttpResponse response, int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
             // Initialize a new instance of pagination using the given data
-            var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalPages, totalPages);
+            var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalItems, totalPages);
 
             // Json serialization settings to format serialized object into camelCase
             var camelCaseFormatter = new JsonSerializerSettings();
