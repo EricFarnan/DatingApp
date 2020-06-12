@@ -11,7 +11,7 @@ import { of, Observable } from 'rxjs';
 // Will return an array of the users
 export class MemberListResolver implements Resolve<User[]> {
     pageNumber = 1;
-    pageSize = 5;
+    pageSize = 12;
 
     constructor(
         private userService: UserService,

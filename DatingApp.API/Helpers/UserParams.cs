@@ -8,7 +8,7 @@ namespace DatingApp.API.Helpers
 
         // Initialize the page number to 1 unless otherwise requested
         public int PageNumber { get; set; } = 1;
-        private int pageSize = 10;
+        private int pageSize = 12;
 
         // Property-full (customizable property) to disallow user from requesting page size higher than MaxPageSize
         public int PageSize

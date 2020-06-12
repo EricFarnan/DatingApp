@@ -18,14 +18,20 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   // Method to return all users from the get users request
-  getUsers(page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
+  getUsers(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
 
-    // Create new Http response parameters for pagination (optional)
+    // Create new Http response parameters for pagination(optional)
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (userParams != null) {
+      params = params.append('minAge', userParams.minAge);
+      params = params.append('maxAge', userParams.maxAge);
+      params = params.append('gender', userParams.gender);
     }
 
     // Get request with optional params, will be the observable response with our request params

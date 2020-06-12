@@ -48,7 +48,7 @@ namespace DatingApp.API.Data
         }
 
         // Method for the http request to get users
-        // This will return a pagedlist of user based on pagination parameters
+        // This will return a pagedlist of user based on user parameters
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(p => p.Photos).AsQueryable();

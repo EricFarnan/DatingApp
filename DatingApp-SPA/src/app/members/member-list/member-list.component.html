@@ -1,3 +1,35 @@
+<div class="text-center mt-3">
+  <h2>{{pagination.totalItems}} matches found!</h2>
+</div><br>
+
+<form class="form-inline justify-content-center" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
+
+  <div class="form-group">
+    <label for="minAge">Age From</label>
+    <input type="number" class="form-control ml-1" style="width: 79px;" id="minAge" [(ngModel)]="userParams.minAge" name="minAge">
+  </div>
+
+  <div class="form-group px-2">
+    <label for="maxAge" value="maxAge">Age From</label>
+    <input type="number" class="form-control ml-1" style="width: 79px;" id="maxAge" [(ngModel)]="userParams.maxAge" name="maxAge">
+  </div>
+
+  <div class="form-group px-2">
+    <label for="gender" value="gender">Show: </label>
+    <select class="form-control ml-1" style="width: 130px;" id="gender" [(ngModel)]="userParams.gender" name="gender">
+      <option *ngFor="let gender of genderList" [value]="gender.value">
+        {{gender.display}}
+      </option>
+    </select>
+  </div>
+
+  <button tpye="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
+  <button tpye="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset Filters</button>
+
+</form>
+<br>
+
+
 <div class="container mt-5">
   <div class="row">
     <!-- Loop through all of the users -->
