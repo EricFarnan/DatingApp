@@ -13,6 +13,7 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeagoModule } from 'ngx-timeago';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -90,6 +91,8 @@ export function tokenGetter() {
 
       // Module for image uploading
       FileUploadModule,
+
+      ButtonsModule.forRoot(),
 
       // JWT auto attach headers to request
       JwtModule.forRoot({

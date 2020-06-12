@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
       // Send the register command from the auth service
       this.authService.register(this.user).subscribe(() => {
-        // If its successful 
+        // If its successful
         this.alertify.success('Registration successful!');
       }, error => {
         // If it errors

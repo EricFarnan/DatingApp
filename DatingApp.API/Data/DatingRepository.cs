@@ -51,7 +51,7 @@ namespace DatingApp.API.Data
         // This will return a pagedlist of user based on user parameters
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(p => p.Photos).AsQueryable();
+            var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
 
             // Remove the user making the request from the response
             users = users.Where(u => u.Id != userParams.UserId);
@@ -66,6 +66,20 @@ namespace DatingApp.API.Data
                 var maxDOB = DateTime.Today.AddYears(-userParams.minAge);
 
                 users = users.Where(users=> users.DateOfBirth >= minDOB && users.DateOfBirth <= maxDOB);
+            }
+
+            // Get the user's ordering preference (if exists)
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch (userParams.OrderBy)
+                {
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
             }
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);

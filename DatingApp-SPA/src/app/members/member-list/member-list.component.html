@@ -2,32 +2,40 @@
   <h2>{{pagination.totalItems}} matches found!</h2>
 </div><br>
 
-<form class="form-inline justify-content-center" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
+<form class="form-inline justify-content-center" #form="ngForm" novalidate>
 
   <div class="form-group">
     <label for="minAge">Age From</label>
-    <input type="number" class="form-control ml-1" style="width: 79px;" id="minAge" [(ngModel)]="userParams.minAge" name="minAge">
+    <input type="number" class="form-control ml-1" style="width: 79px;" id="minAge" [(ngModel)]="userFilterEdit.minAge" name="minAge">
   </div>
 
   <div class="form-group px-2">
     <label for="maxAge" value="maxAge">Age From</label>
-    <input type="number" class="form-control ml-1" style="width: 79px;" id="maxAge" [(ngModel)]="userParams.maxAge" name="maxAge">
+    <input type="number" class="form-control ml-1" style="width: 79px;" id="maxAge" [(ngModel)]="userFilterEdit.maxAge" name="maxAge">
   </div>
 
   <div class="form-group px-2">
     <label for="gender" value="gender">Show: </label>
-    <select class="form-control ml-1" style="width: 130px;" id="gender" [(ngModel)]="userParams.gender" name="gender">
+    <select class="form-control ml-1" style="width: 130px;" id="gender" [(ngModel)]="userFilterEdit.gender" name="gender">
       <option *ngFor="let gender of genderList" [value]="gender.value">
         {{gender.display}}
       </option>
     </select>
   </div>
 
-  <button tpye="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
+  <button tpye="submit" class="btn btn-primary" (click)="setUserParamOnFilter()"style="margin-left:10px">Apply Filters</button>
   <button tpye="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset Filters</button>
 
 </form>
 <br>
+
+<div class="form-group text-center">
+  <div class="btn-group">
+    <button type="button" name="orderBy" class="btn btn-primary mr-1" [(ngModel)]="userParams.orderBy" (click)="pagination.currentPage = 1; loadUsers()" btnRadio="lastActive">Last Active</button>
+    <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)]="userParams.orderBy" (click)="pagination.currentPage = 1; loadUsers()" btnRadio="created">Newest Members</button>
+  </div>
+</div>
+
 
 
 <div class="container mt-5">

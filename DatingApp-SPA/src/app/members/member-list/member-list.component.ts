@@ -16,6 +16,7 @@ export class MemberListComponent implements OnInit {
   user: User = JSON.parse(localStorage.getItem('user'));
   genderList = [{value: 'male', display: 'Males'}, {value: 'female', display: 'Females'}];
   userParams: any = {};
+  userFilterEdit: any = {};
   pagination: Pagination;
 
   constructor(
@@ -30,6 +31,7 @@ export class MemberListComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.users = data.users.result;
       this.pagination = data.users.pagination;
+      this.userParams.orderBy = 'lastActive';
     });
 
     this.resetFilters();
@@ -44,6 +46,23 @@ export class MemberListComponent implements OnInit {
     this.userParams.gender = this.user.gender === 'female' ? 'male' : 'female';
     this.userParams.minAge = 18;
     this.userParams.maxAge = 99;
+
+    this.userFilterEdit.gender = this.user.gender === 'female' ? 'male' : 'female';
+    this.userFilterEdit.minAge = 18;
+    this.userFilterEdit.maxAge = 99;
+
+    this.pagination.currentPage = 1;
+
+    this.loadUsers();
+  }
+
+  // When the filter is pressed update the userParams using the user's filtered data
+  setUserParamOnFilter() {
+    this.userParams.gender = this.userFilterEdit.gender;
+    this.userParams.minAge = this.userFilterEdit.minAge;
+    this.userParams.maxAge = this.userFilterEdit.maxAge;
+
+    this.pagination.currentPage = 1;
     this.loadUsers();
   }
 
